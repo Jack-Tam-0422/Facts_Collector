@@ -1,0 +1,23 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Homepage
+{% endblock %}
+
+{% block main %}
+<h1 style="margin-bottom: 18px;">Welcome to Facts Collector</h1>
+<h6 style="margin-bottom: 10px;">Facts Collector provides you the facts you needed for making your investing decisions.</h6>
+<h6 style="margin-top: 10px;">Facts Collector also provides a portfolio simulator for you to test your strategies.</h6>
+<br>
+<div style="display: flex; justify-content: space-between; margin-top: 10px;">
+    <form style="flex: 1; display: flex; justify-content: center; align-items: center; margin-right: 10px;" action="/stock_graph" method="GET">
+        <button style="width: 84%; height: 100%; font-size: 2rem; background-color: #e1f2fb; border: none; outline: none; font-weight: bold; font-family: 'Arial', sans-serif;" type="submit">Stock Search</button>
+    </form>
+    <form style="flex: 1; display: flex; justify-content: center; align-items: center; margin-right: 10px;" action="/stimulator" method="GET">
+        <button style="width: 84%; height: 100%; font-size: 2rem; background-color: #e1f2fb; border: none; outline: none; font-weight: bold; font-family: 'Arial', sans-serif;" type="submit">Portfolio Simulator</button>
+    </form>
+    <form style="flex: 1; display: flex; justify-content: center; align-items: center;" action="/google" method="GET">
+        <button style="width: 84%; height: 100%; font-size: 2rem; background-color: #e1f2fb; border: none; outline: none; font-weight: bold; font-family: 'Arial', sans-serif;" type="submit">Hot News</button>
+    </form>
+</div>
+{% endblock %}

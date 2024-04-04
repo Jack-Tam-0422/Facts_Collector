@@ -1,0 +1,174 @@
+<!-- stock_graph.html -->
+
+{% extends 'layout.html' %}
+
+{% block title %}
+    Search
+{% endblock %}
+
+{% block main %}
+    <div class="row">
+        <div class="col-md-4">
+            <h1>Stock Search</h1>
+            <form action="/stock_graph" method="post">
+                <div class="mb-3">
+                    <input autocomplete="off" autofocus class="form-control" name="symbol" placeholder="Symbol" type="text">
+                </div>
+                <div class="mb-3">
+                    <input autocomplete="off" autofocus class="form-control" name="period" placeholder="Period" min="1" type="number">
+                </div>
+                <div class="mb-3">
+                    <label class="interval-option">
+                        <input type="radio" name="interval" value="week">
+                        Week
+                    </label>
+                    <label class="interval-option">
+                        <input type="radio" name="interval" value="month">
+                        Month
+                    </label>
+                    <label class="interval-option">
+                        <input type="radio" name="interval" value="year" checked>
+                        Year
+                    </label>
+                </div>
+
+                <button class="btn btn-primary" type="submit">Search</button>
+            </form>
+        </div>
+        <div class="col-md-8">
+            <h2>Stock Price of {{ symbol }}</h2>
+            <canvas id="stockChart"></canvas>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        // Get the data passed from Flask
+        var data = JSON.parse('{{ data|safe }}');
+
+        // Extract the necessary data for the chart
+        var dates = data.map(function(item) { return item['Date']; });
+        var prices = data.map(function(item) { return item['Close']; });
+
+        // Create the chart using Chart.js
+        var ctx = document.getElementById('stockChart').getContext('2d');
+        var chart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: dates,
+                datasets: [{
+                    label: 'Stock Price',
+                    data: prices,
+                    borderColor: 'blue',
+                    fill: false
+                }]
+            },
+            options: {
+                // Customize the chart options as needed
+                // For example, you can add a title, axes labels, etc.
+            }
+        });
+    </script>
+    <br>
+    <br>
+    <style>
+        .stock-table {
+            border-collapse: collapse;
+            width: 800px; /* Adjust the width to accommodate two tables per row */
+            background-color: #e8f4fd;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            margin: 0 auto;
+        }
+
+        .stock-table th,
+        .stock-table td {
+            padding: 8px;
+            text-align: left;
+            border-bottom: 1px solid #ccc;
+        }
+
+        .stock-table th {
+            background-color: #d2e5ff;
+        }
+
+        .stock-table tr:hover {
+            background-color: #f9fcff;
+        }
+
+        .table-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+        }
+
+        .table-container .stock-table {
+            width: 48%; /* Adjust the width of each table */
+            margin-bottom: 16px;
+        }
+
+        .stock-table th:first-child,
+        .stock-table td:first-child {
+            width: calc(50% - 8px); /* Adjust the width of the key column */
+        }
+
+        .stock-table th:last-child,
+        .stock-table td:last-child {
+            width: calc(50% - 8px); /* Adjust the width of the value column */
+        }
+    </style>
+
+    <body>
+        <div class="table-container">
+            <table class="stock-table">
+                <tr>
+                    <th colspan="2">Basic Information</th>
+                </tr>
+                {% for key, value in basic_info.items() %}
+                <tr>
+                    <td>{{ key }}</td>
+                    <td>{{ value }}</td>
+                </tr>
+                {% endfor %}
+            </table>
+
+            <table class="stock-table">
+                <tr>
+                    <th colspan="2">Operation</th>
+                </tr>
+                {% for key, value in operation.items() %}
+                <tr>
+                    <td>{{ key }}</td>
+                    <td>{{ value }}</td>
+                </tr>
+                {% endfor %}
+            </table>
+
+            <table class="stock-table">
+                <tr>
+                    <th colspan="2">Profitability</th>
+                </tr>
+                {% for key, value in profitability.items() %}
+                <tr>
+                    <td>{{ key }}</td>
+                    <td>{{ value }}</td>
+                </tr>
+                {% endfor %}
+            </table>
+
+            <table class="stock-table">
+                <tr>
+                    <th colspan="2">Valuation</th>
+                </tr>
+                {% for key, value in valuation.items() %}
+                <tr>
+                    <td>{{ key }}</td>
+                    <td>{{ value }}</td>
+                </tr>
+                {% endfor %}
+            </table>
+        </div>
+    </body>
+
+
+{% endblock %}

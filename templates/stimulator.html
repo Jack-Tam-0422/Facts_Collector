@@ -1,0 +1,70 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Simulator
+{% endblock %}
+
+{% block main %}
+<div style="display: flex;">
+    <div style="width: 50%;">
+        <h3>Buy</h3>
+        <form action="/buy" method="post">
+            <div class="mb-3">
+                <input autocomplete="off" autofocus class="form-control mx-auto w-auto" name="symbol" placeholder="Symbol" type="text">
+            </div>
+            <div class="mb-3">
+                <input autocomplete="off" autofocus class="form-control mx-auto w-auto" name="shares" placeholder="Shares" type="number">
+            </div>
+            <button class="btn btn-primary" type="submit">Buy</button>
+        </form>
+    </div>
+    <div style="width: 50%;">
+        <h3>Sell</h3>
+        <form action="/sell" method="post">
+            <div class="mb-3">
+                <input autocomplete="off" autofocus class="form-control mx-auto w-auto" name="symbol" placeholder="Symbol" type="text">
+            </div>
+            <div class="mb-3">
+                <input autocomplete="off" autofocus class="form-control mx-auto w-auto" name="shares" placeholder="Shares" type="number">
+            </div>
+            <button class="btn btn-primary" type="submit">Sell</button>
+        </form>
+    </div>
+</div>
+
+<h3 style="width: 100%; text-align: center;">Summary Table</h3>
+<div style="display: flex; justify-content: center;">
+    <div style="width: 90%; margin-top: 20px;">
+        <style>
+            table {
+                width: 100%;
+                border-collapse: collapse;
+            }
+            th, td {
+                padding: 10px;
+                text-align: center;
+            }
+        </style>
+        {{ summary_table | safe }}
+    </div>
+</div>
+<br>
+
+<h3 style="width: 100%; text-align: center;">Portfolio Table</h3>
+<div style="display: flex; justify-content: center;">
+    <div style="width: 90%; margin-top: 20px;">
+        <style>
+            table {
+                width: 100%;
+                border-collapse: collapse;
+            }
+            th, td {
+                padding: 10px;
+                text-align: center;
+            }
+        </style>
+        {{ portfolio_table | safe }}
+    </div>
+</div>
+
+{% endblock %}
